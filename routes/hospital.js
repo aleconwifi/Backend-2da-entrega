@@ -107,6 +107,13 @@ app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
 
         hospital.nombre = body.nombre;
         hospital.descripcion = body.descripcion;
+        hospital.precio = body.precio;
+        hospital.operacion = body.operacion;
+        hospital.estado = body.estado;
+
+
+
+
         hospital.usuario = req.usuario._id;
 
         hospital.save((err, hospitalGuardado) => {
@@ -142,6 +149,13 @@ app.post('/', mdAutenticacion.verificaToken, (req, res) => {
     var hospital = new Hospital({
         nombre: body.nombre,
         descripcion: body.descripcion,
+        precio: body.precio,
+        operacion: body.operacion,
+        estado: body.estado,
+
+
+
+
         usuario: req.usuario._id
     });
 
