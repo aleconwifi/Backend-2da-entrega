@@ -4,36 +4,36 @@ var mdAutenticacion = require('../middlewares/autenticacion');
 
 var app = express();
 
-var Hospital = require('../models/hospital');
+var Inmueble = require('../models/inmueble');
 
 // ==========================================
-// Obtener todos los hospitales
+// Obtener todos los inmuebles
 // ==========================================
 app.get('/', (req, res, next) => {
 
     var desde = req.query.desde || 0;
     desde = Number(desde);
 
-    Hospital.find({})
+    Inmueble.find({})
         .skip(desde)
         .limit(5)
         .populate('usuario', 'nombre email')
         .exec(
-            (err, hospitales) => {
+            (err, inmuebles) => {
 
                 if (err) {
                     return res.status(500).json({
                         ok: false,
-                        mensaje: 'Error cargando hospital',
+                        mensaje: 'Error cargando inmueble',
                         errors: err
                     });
                 }
 
-                Hospital.count({}, (err, conteo) => {
+                Inmueble.count({}, (err, conteo) => {
 
                     res.status(200).json({
                         ok: true,
-                        hospitales: hospitales,
+                        inmuebles: inmuebles,
                         total: conteo
                     });
                 })
@@ -42,33 +42,33 @@ app.get('/', (req, res, next) => {
 });
 
 // ==========================================
-//  Obtener Hospital por ID
+//  Obtener Inmueble por ID
 // ==========================================
 app.get('/:id', (req, res) => {
 
     var id = req.params.id;
 
-    Hospital.findById(id)
+    Inmueble.findById(id)
         .populate('usuario', 'nombre img email')
-        .exec((err, hospital) => {
+        .exec((err, inmueble) => {
             if (err) {
                 return res.status(500).json({
                     ok: false,
-                    mensaje: 'Error al buscar hospital',
+                    mensaje: 'Error al buscar inmueble',
                     errors: err
                 });
             }
 
-            if (!hospital) {
+            if (!inmueble) {
                 return res.status(400).json({
                     ok: false,
-                    mensaje: 'El hospital con el id ' + id + 'no existe',
-                    errors: { message: 'No existe un hospital con ese ID' }
+                    mensaje: 'El inmueble con el id ' + id + 'no existe',
+                    errors: { message: 'No existe un inmueble con ese ID' }
                 });
             }
             res.status(200).json({
                 ok: true,
-                hospital: hospital
+                inmueble: inmueble
             });
         })
 })
@@ -78,57 +78,57 @@ app.get('/:id', (req, res) => {
 
 
 // ==========================================
-// Actualizar Hospital
+// Actualizar Inmueble
 // ==========================================
 app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
 
     var id = req.params.id;
     var body = req.body;
 
-    Hospital.findById(id, (err, hospital) => {
+    Inmueble.findById(id, (err, inmueble) => {
 
 
         if (err) {
             return res.status(500).json({
                 ok: false,
-                mensaje: 'Error al buscar hospital',
+                mensaje: 'Error al buscar inmueble',
                 errors: err
             });
         }
 
-        if (!hospital) {
+        if (!inmueble) {
             return res.status(400).json({
                 ok: false,
-                mensaje: 'El hospital con el id ' + id + ' no existe',
-                errors: { message: 'No existe un hospital con ese ID' }
+                mensaje: 'El inmueble con el id ' + id + ' no existe',
+                errors: { message: 'No existe un inmueble con ese ID' }
             });
         }
 
 
-        hospital.nombre = body.nombre;
-        hospital.descripcion = body.descripcion;
-        hospital.precio = body.precio;
-        hospital.operacion = body.operacion;
-        hospital.estado = body.estado;
+        inmueble.nombre = body.nombre;
+        inmueble.descripcion = body.descripcion;
+        inmueble.precio = body.precio;
+        inmueble.operacion = body.operacion;
+        inmueble.estado = body.estado;
 
 
 
 
-        hospital.usuario = req.usuario._id;
+        inmueble.usuario = req.usuario._id;
 
-        hospital.save((err, hospitalGuardado) => {
+        inmueble.save((err, inmuebleGuardado) => {
 
             if (err) {
                 return res.status(400).json({
                     ok: false,
-                    mensaje: 'Error al actualizar hospital',
+                    mensaje: 'Error al actualizar inmueble',
                     errors: err
                 });
             }
 
             res.status(200).json({
                 ok: true,
-                hospital: hospitalGuardado
+                inmueble: inmuebleGuardado
             });
 
         });
@@ -140,13 +140,13 @@ app.put('/:id', mdAutenticacion.verificaToken, (req, res) => {
 
 
 // ==========================================
-// Crear un nuevo hospital
+// Crear un nuevo inmueble
 // ==========================================
 app.post('/', mdAutenticacion.verificaToken, (req, res) => {
 
     var body = req.body;
 
-    var hospital = new Hospital({
+    var inmueble = new Inmueble({
         nombre: body.nombre,
         descripcion: body.descripcion,
         precio: body.precio,
@@ -159,19 +159,19 @@ app.post('/', mdAutenticacion.verificaToken, (req, res) => {
         usuario: req.usuario._id
     });
 
-    hospital.save((err, hospitalGuardado) => {
+    inmueble.save((err, inmuebleGuardado) => {
 
         if (err) {
             return res.status(400).json({
                 ok: false,
-                mensaje: 'Error al crear hospital',
+                mensaje: 'Error al crear inmueble',
                 errors: err
             });
         }
 
         res.status(201).json({
             ok: true,
-            hospital: hospitalGuardado
+            inmueble: inmuebleGuardado
         });
 
 
@@ -181,33 +181,33 @@ app.post('/', mdAutenticacion.verificaToken, (req, res) => {
 
 
 // ============================================
-//   Borrar un hospital por el id
+//   Borrar un inmueble por el id
 // ============================================
 app.delete('/:id', mdAutenticacion.verificaToken, (req, res) => {
 
     var id = req.params.id;
 
-    Hospital.findByIdAndRemove(id, (err, hospitalBorrado) => {
+    Inmueble.findByIdAndRemove(id, (err, inmuebleBorrado) => {
 
         if (err) {
             return res.status(500).json({
                 ok: false,
-                mensaje: 'Error borrar hospital',
+                mensaje: 'Error borrar inmueble',
                 errors: err
             });
         }
 
-        if (!hospitalBorrado) {
+        if (!inmuebleBorrado) {
             return res.status(400).json({
                 ok: false,
-                mensaje: 'No existe un hospital con ese id',
-                errors: { message: 'No existe un hospital con ese id' }
+                mensaje: 'No existe un inmueble con ese id',
+                errors: { message: 'No existe un inmueble con ese id' }
             });
         }
 
         res.status(200).json({
             ok: true,
-            hospital: hospitalBorrado
+            inmueble: inmuebleBorrado
         });
 
     });

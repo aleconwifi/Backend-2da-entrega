@@ -204,8 +204,8 @@ function obtenerMenu(ROLE) {
             submenu: [
                 { titulo: 'Inicio', url: '/dashboard' },
                 { titulo: 'Gráficas', url: '/graficas1' },
-                  { titulo: 'Buscar amigos', url: '/buscaramigos' },
-                    { titulo: 'Marcados', url: '/graficas1' },
+                { titulo: 'Buscar amigos', url: '/buscaramigos' },
+                { titulo: 'Marcados', url: '/graficas1' },
             ]
         },
         {
@@ -213,8 +213,8 @@ function obtenerMenu(ROLE) {
             icono: 'mdi mdi-folder-lock-open',
             submenu: [
                 // { titulo: 'Usuarios', url: '/usuarios' },
-                { titulo: 'Inmuebles', url: '/hospitales' },
-                { titulo: 'Clientes', url: '/medicos' }
+                { titulo: 'Inmuebles', url: '/inmuebles' },
+                { titulo: 'Clientes', url: '/clientes' }
             ]
         }
     ];

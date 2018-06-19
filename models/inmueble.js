@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 
-var hospitalSchema = new Schema({
+var inmuebleSchema = new Schema({
     nombre: { type: String, required: [true, 'El nombre es necesario'] },
     descripcion: { type: String, required: [true, 'La descripcion es necesario'] },
     precio: { type: String, required: [true, 'La descripcion es necesario'] },
@@ -13,8 +13,8 @@ var hospitalSchema = new Schema({
 
     img: { type: String, required: false },
     usuario: { type: Schema.Types.ObjectId, ref: 'Usuario' }
-}, { collection: 'hospitales' });
+}, { collection: 'inmuebles' });
 
 
 
-module.exports = mongoose.model('Hospital', hospitalSchema);
+module.exports = mongoose.model('Inmueble', inmuebleSchema);

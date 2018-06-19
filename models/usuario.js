@@ -10,7 +10,7 @@ var rolesValidos = {
 };
 
 
-var usuarioSchema = new Schema({
+var UsuarioSchema = new Schema({
 
     nombre: { type: String, required: [true, 'El nombre es necesario'] },
     email: { type: String, unique: true, required: [true, 'El correo es necesario'] },
@@ -20,6 +20,6 @@ var usuarioSchema = new Schema({
     google: { type: Boolean, required: true, default: false }
 });
 
-usuarioSchema.plugin(uniqueValidator, { message: '{PATH} debe de ser único' });
+UsuarioSchema.plugin(uniqueValidator, { message: '{PATH} debe de ser único' });
 
-module.exports = mongoose.model('Usuario', usuarioSchema);
+module.exports = mongoose.model('Usuario', UsuarioSchema);

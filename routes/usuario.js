@@ -7,6 +7,8 @@ var mdAutenticacion = require('../middlewares/autenticacion');
 var app = express();
 
 var Usuario = require('../models/usuario');
+var Follow = require('../models/follow');
+
 
 // ==========================================
 // Obtener todos los usuarios
