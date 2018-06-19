@@ -2,8 +2,8 @@ var express = require('express');
 
 var app = express();
 
-var Hospital = require('../models/hospital');
-var Medico = require('../models/medico');
+var Inmueble = require('../models/inmueble');
+var Cliente = require('../models/cliente');
 var Usuario = require('../models/usuario');
 
 // ==============================
@@ -23,18 +23,18 @@ app.get('/coleccion/:tabla/:busqueda', (req, res) => {
             promesa = buscarUsuarios(busqueda, regex);
             break;
 
-        case 'medicos':
-            promesa = buscarMedicos(busqueda, regex);
+        case 'clientes':
+            promesa = buscarClientes(busqueda, regex);
             break;
 
-        case 'hospitales':
-            promesa = buscarHospitales(busqueda, regex);
+        case 'inmuebles':
+            promesa = buscarInmueblees(busqueda, regex);
             break;
 
         default:
             return res.status(400).json({
                 ok: false,
-                mensaje: 'Los tipos de busqueda sólo son: usuarios, medicos y hospitales',
+                mensaje: 'Los tipos de busqueda sólo son: usuarios, clientes y inmuebles',
                 error: { message: 'Tipo de tabla/coleccion no válido' }
             });
 
@@ -62,16 +62,16 @@ app.get('/todo/:busqueda', (req, res, next) => {
 
 
     Promise.all([
-            buscarHospitales(busqueda, regex),
-            buscarMedicos(busqueda, regex),
+            buscarInmueblees(busqueda, regex),
+            buscarClientes(busqueda, regex),
             buscarUsuarios(busqueda, regex)
         ])
         .then(respuestas => {
 
             res.status(200).json({
                 ok: true,
-                hospitales: respuestas[0],
-                medicos: respuestas[1],
+                inmuebles: respuestas[0],
+                clientes: respuestas[1],
                 usuarios: respuestas[2]
             });
         })
@@ -80,36 +80,36 @@ app.get('/todo/:busqueda', (req, res, next) => {
 });
 
 
-function buscarHospitales(busqueda, regex) {
+function buscarInmueblees(busqueda, regex) {
 
     return new Promise((resolve, reject) => {
 
-        Hospital.find({ nombre: regex })
+        Inmueble.find({ nombre: regex })
             .populate('usuario', 'nombre email img')
-            .exec((err, hospitales) => {
+            .exec((err, inmuebles) => {
 
                 if (err) {
-                    reject('Error al cargar hospitales', err);
+                    reject('Error al cargar inmuebles', err);
                 } else {
-                    resolve(hospitales)
+                    resolve(inmuebles)
                 }
             });
     });
 }
 
-function buscarMedicos(busqueda, regex) {
+function buscarClientes(busqueda, regex) {
 
     return new Promise((resolve, reject) => {
 
-        Medico.find({ nombre: regex })
+        Cliente.find({ nombre: regex })
             .populate('usuario', 'nombre email img')
-            .populate('hospital')
-            .exec((err, medicos) => {
+            .populate('inmueble')
+            .exec((err, clientes) => {
 
                 if (err) {
-                    reject('Error al cargar medicos', err);
+                    reject('Error al cargar clientes', err);
                 } else {
-                    resolve(medicos)
+                    resolve(clientes)
                 }
             });
     });

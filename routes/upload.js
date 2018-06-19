@@ -7,8 +7,8 @@ var fs = require('fs');
 var app = express();
 
 var Usuario = require('../models/usuario');
-var Medico = require('../models/medico');
-var Hospital = require('../models/hospital');
+var Cliente = require('../models/cliente');
+var Inmueble = require('../models/inmueble');
 
 
 // default options
@@ -23,7 +23,7 @@ app.put('/:tipo/:id', (req, res, next) => {
     var id = req.params.id;
 
     // tipos de colección
-    var tiposValidos = ['hospitales', 'medicos', 'usuarios'];
+    var tiposValidos = ['inmuebles', 'clientes', 'usuarios'];
     if (tiposValidos.indexOf(tipo) < 0) {
         return res.status(400).json({
             ok: false,
@@ -134,11 +134,11 @@ function subirPorTipo(tipo, id, nombreArchivo, res) {
 
     }
 
-    if (tipo === 'medicos') {
+    if (tipo === 'clientes') {
 
-        Medico.findById(id, (err, medico) => {
+        Cliente.findById(id, (err, cliente) => {
 
-            if (!medico) {
+            if (!cliente) {
                 return res.status(400).json({
                     ok: true,
                     mensaje: 'Médico no existe',
@@ -146,21 +146,21 @@ function subirPorTipo(tipo, id, nombreArchivo, res) {
                 });
             }
 
-            var pathViejo = './uploads/medicos/' + medico.img;
+            var pathViejo = './uploads/clientes/' + cliente.img;
 
             // Si existe, elimina la imagen anterior
             if (fs.existsSync(pathViejo)) {
                 fs.unlink(pathViejo);
             }
 
-            medico.img = nombreArchivo;
+            cliente.img = nombreArchivo;
 
-            medico.save((err, medicoActualizado) => {
+            cliente.save((err, clienteActualizado) => {
 
                 return res.status(200).json({
                     ok: true,
                     mensaje: 'Imagen de médico actualizada',
-                    medico: medicoActualizado
+                    cliente: clienteActualizado
                 });
 
             })
@@ -168,33 +168,33 @@ function subirPorTipo(tipo, id, nombreArchivo, res) {
         });
     }
 
-    if (tipo === 'hospitales') {
+    if (tipo === 'inmuebles') {
 
-        Hospital.findById(id, (err, hospital) => {
+        Inmueble.findById(id, (err, inmueble) => {
 
-            if (!hospital) {
+            if (!inmueble) {
                 return res.status(400).json({
                     ok: true,
-                    mensaje: 'Hospital no existe',
-                    errors: { message: 'Hospital no existe' }
+                    mensaje: 'Inmueble no existe',
+                    errors: { message: 'Inmueble no existe' }
                 });
             }
 
-            var pathViejo = './uploads/hospitales/' + hospital.img;
+            var pathViejo = './uploads/inmuebles/' + inmueble.img;
 
             // Si existe, elimina la imagen anterior
             if (fs.existsSync(pathViejo)) {
                 fs.unlink(pathViejo);
             }
 
-            hospital.img = nombreArchivo;
+            inmueble.img = nombreArchivo;
 
-            hospital.save((err, hospitalActualizado) => {
+            inmueble.save((err, inmuebleActualizado) => {
 
                 return res.status(200).json({
                     ok: true,
-                    mensaje: 'Imagen de hospital actualizada',
-                    hospital: hospitalActualizado
+                    mensaje: 'Imagen de inmueble actualizada',
+                    inmueble: inmuebleActualizado
                 });
 
             })
