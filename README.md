@@ -1,12 +1,19 @@
 # Backend-Server
 
-Este es el código necesario para establecer el backend conectado a MongoDB usando Mongoose.
-
-Para ejecutarlo, es necesario reconstruir los módulos de node usando el comando
+Para correr el backend, descargue el zip de github. Descomprimir y reconstruir los modulos de node ejecutando en una consola cmd, en la ruta del Proyecto ejemplo:
 
 ```
-npm install
+Descargas>Inmobilink-2da-entrega> npm install
 ```
 
-## Dentro de Google-Signin-demo
-Existe un pequeño ejercicio para probar la autenticación de Google en un Front-End básico pero funcional.
+Tener previamente instalado mongoDB, abrir una consola cmd y ejecutar mongod.exe
+
+windows10>mongod.exe (si no tiene instalado el demonio de mongodb no va a funcionar)
+
+en otra consola en la ruta del proyecto ejecutar
+
+Descargas>Inmobilink-2da-entrega>npm start
+
+Cuando en la consola diga Express server: ONLINE y Base de datos: ONLINE ya esta listo para usarse
+
+
