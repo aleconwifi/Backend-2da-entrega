@@ -2,6 +2,8 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var MongoClient = require('mongodb').MongoClient;
+
 
 // Inicializar variables
 var app = express();
@@ -32,8 +34,13 @@ var busquedaRoutes = require('./routes/busqueda');
 var uploadRoutes = require('./routes/upload');
 var imagenesRoutes = require('./routes/imagenes');
 
+//nuevoo
+var follow_routes = require('./rutas/follow');
+var user_routes = require('./rutas/usuario');
+
 
 // Conexión a la base de datos
+
 mongoose.connection.openUri('mongodb://localhost:27017/InmobilinkDatabase', (err, res) => {
 
     if (err) throw err;
@@ -41,6 +48,9 @@ mongoose.connection.openUri('mongodb://localhost:27017/InmobilinkDatabase', (err
     console.log('Base de datos: \x1b[32m%s\x1b[0m', 'online');
 
 });
+
+
+
 
 // Server index config
 // var serveIndex = require('serve-index');
@@ -59,6 +69,11 @@ app.use('/upload', uploadRoutes);
 app.use('/img', imagenesRoutes);
 
 app.use('/', appRoutes);
+
+//Rutas con controller
+
+app.use('/', follow_routes);
+app.use('/', user_routes);
 
 
 // Escuchar peticiones

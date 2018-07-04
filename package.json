@@ -10,6 +10,7 @@
     "author": "Alejandro Marcano",
     "license": "ISC",
     "dependencies": {
+        "bcrypt-nodejs": "0.0.3",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.18.2",
         "express": "^4.16.2",
@@ -17,6 +18,8 @@
         "google-auth-library": "^0.12.0",
         "jsonwebtoken": "^8.1.0",
         "mongoose": "^4.13.5",
+        "mongoose-paginate": "^5.0.3",
+        "mongoose-pagination": "^1.0.0",
         "mongoose-unique-validator": "^1.0.6",
         "serve-index": "^1.9.1"
     },
